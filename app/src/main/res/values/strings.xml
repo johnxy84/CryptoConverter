@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CryptoData</string>
+    <string name="losers">Losers</string>
+    <string name="winners">Winners</string>
+    <string name="_1h">1H</string>
+    <string name="_24h">24H</string>
+    <string name="_1w">1W</string>
 </resources>

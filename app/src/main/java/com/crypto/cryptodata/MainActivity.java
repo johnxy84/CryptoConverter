@@ -1,11 +1,15 @@
 package com.crypto.cryptodata;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -37,10 +41,46 @@ public class MainActivity extends AppCompatActivity {
         currencyRecycler= findViewById(R.id.CurrencyRecyclerView);
         currencyRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+
         setupNetwork();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater= getMenuInflater();
+
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+
+
+            case R.id.LosersButton:
+            {
+                Intent intent= new Intent( this, StatActivity.class );
+                intent.putExtra("Data", "Losers");
+                startActivity(intent);
+            }
+            break;
+            case R.id.WinnersButton:
+            {
+                Intent intent= new Intent( this, StatActivity.class );
+                intent.putExtra("Data", "Winners");
+                startActivity(intent);
+            }
+            break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setupNetwork() {
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.currency_endpoint)
@@ -58,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Currency>> call, Response<List<Currency>> response) {
 
                 List<Currency> currencies= response.body();
+
+                if (currencies==null || currencies.size()<1) return;
 
                 adapter= new CurrencyAdapter(currencies);
 
@@ -97,11 +139,6 @@ public class MainActivity extends AppCompatActivity {
 
             float nairaValue= Float.parseFloat(currencies.get(position).Price) * 359.71f;
 
-//            DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.CANADA.ENGLISH));//.format(String.valueOf(naira));
-//
-//            String naira=df.format(nairaValue);
-//            String dollar= df.format(currencies.get(position).Price);
-
             holder.setCurrencyName(currencies.get(position).Name);
             holder.setNgnPrice(String.valueOf(nairaValue));
             holder.setUsdPrice(currencies.get(position).Price);
@@ -112,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             return currencies.size();
         }
     }
-
 
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder

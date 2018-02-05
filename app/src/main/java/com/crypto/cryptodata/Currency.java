@@ -16,24 +16,41 @@ public class Currency {
     @SerializedName("price_usd")
     String Price;
 
-    public String getName ()
+    @SerializedName("percent_change_1h")
+    String HourChange;
+
+    @SerializedName("percent_change_24h")
+    String DayChange;
+
+    @SerializedName("percent_change_7d")
+    String WeekChange;
+
+
+
+//    public String getName ()
+//    {
+//        return Name;
+//    }
+
+//    public void setName (String name)
+//    {
+//        Name=name;
+//    }
+//
+
+    public double getHourChange()
     {
-        return Name;
+        return Double.parseDouble(HourChange);
     }
 
-    public void setName (String name)
+    public double getDayChange()
     {
-        Name=name;
+        return Double.parseDouble(HourChange);
     }
 
-    public String getPrice ()
+    public double getWeekChange()
     {
-        return Price;
-    }
-
-    public void setPrice (String name)
-    {
-        Name=name;
+        return Double.parseDouble(HourChange);
     }
 
 
